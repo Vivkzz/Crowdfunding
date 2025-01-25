@@ -97,3 +97,5 @@ $ cast --help
 - [ ] Add .env to .gitignore
 - [ ] Remove hardcoded API keys
 - [ ] Remove hardcoded contract addresses
+
+**Written using AI**
