@@ -6,11 +6,11 @@ import {Crowdfunding} from "../src/Crowdfunding.sol";
 
 // Feel like this test still can be written in much more better ways
 
-contract TestGaslessCrowdfunding is Test {
-    GaslessCrowdfunding crowdfunding;
+contract TestCrowdfunding is Test {
+    Crowdfunding crowdfunding;
 
     function setUp() public {
-        crowdfunding = new GaslessCrowdfunding();
+        crowdfunding = new Crowdfunding();
     }
 
     function testCreateCampaign() public {

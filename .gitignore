@@ -12,3 +12,20 @@ docs/
 
 # Dotenv file
 .env
+
+# Node modules
+node_modules
+
+# Coverage files
+coverage
+coverage.json
+
+# Typechain files
+typechain
+typechain-types
+
+# VSCode files
+.vscode
+
+# Hardhat files
+artifacts

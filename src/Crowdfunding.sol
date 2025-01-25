@@ -22,13 +22,13 @@ contract Crowdfunding {
 
     event ContributionsMade(uint256 indexed campaignId, address indexed contributor, uint256 value);
     event FundWithdrawn(uint256 indexed campaignId, address indexed creator, uint256 value);
-    event Refuded(uint256 indexed campaignId, address indexed contributor, uint256 value);
+    event Refunded(uint256 indexed campaignId, address indexed contributor, uint256 value);
 
     function createCampaign(string memory _title, string memory _description, uint256 _targetAmount, uint256 _deadline)
         public
     {
         require(_deadline > block.timestamp, "Deadline must be in future");
-        require(_targetAmount > 0, "target must be greater 0");
+        require(_targetAmount > 0, "Target must be greater than 0");
 
         campaignCount++;
         Campaign storage newCampaign = campaigns[campaignCount];
@@ -43,8 +43,8 @@ contract Crowdfunding {
 
     function Contribute(uint256 _campaignId) public payable {
         Campaign storage campaign = campaigns[_campaignId];
-        require(msg.value > 0, "can't send empty txns");
-        require(block.timestamp < campaign.deadline, "Campaign deadline exceeds");
+        require(msg.value > 0, "Can't send empty transactions");
+        require(block.timestamp < campaign.deadline, "Campaign deadline exceeded");
         require(!campaign.isCompleted, "Campaign reached milestone");
 
         campaign.contributions[msg.sender] += msg.value;
@@ -56,8 +56,8 @@ contract Crowdfunding {
     function withdrawFunds(uint256 _campaignId) public {
         Campaign storage campaign = campaigns[_campaignId];
         require(msg.sender == campaign.creator, "Must be creator of campaign");
-        require(campaign.collectedAmount >= campaign.targetAmount, "Campaign is not reached target amount");
-        require(!campaign.isCompleted, "Campaign already completed(funds withdrawed)");
+        require(campaign.collectedAmount >= campaign.targetAmount, "Campaign has not reached target amount");
+        require(!campaign.isCompleted, "Campaign already completed (funds withdrawn)");
 
         uint256 amount = campaign.collectedAmount;
         campaign.collectedAmount = 0;
@@ -72,15 +72,15 @@ contract Crowdfunding {
         Campaign storage campaign = campaigns[_campaignId];
         uint256 userAmount = campaign.contributions[msg.sender];
 
-        require(userAmount > 0, "Didn't contributed to event");
-        require(block.timestamp > campaign.deadline, "Campaign is still running!");
+        require(userAmount > 0, "Did not contribute to campaign");
+        require(block.timestamp > campaign.deadline, "Campaign is still running");
         require(campaign.collectedAmount < campaign.targetAmount, "Campaign has reached its target");
 
         campaign.contributions[msg.sender] = 0;
         (bool success,) = msg.sender.call{value: userAmount}("");
         require(success, "Transaction failed");
 
-        emit Refuded(_campaignId, msg.sender, userAmount);
+        emit Refunded(_campaignId, msg.sender, userAmount);
     }
 
     function getContribution(uint256 _campaignId, address _contributor) external view returns (uint256) {

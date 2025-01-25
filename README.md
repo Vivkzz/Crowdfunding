@@ -64,3 +64,36 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+# Crowdfunding DApp
+
+## Setup
+1. Clone the repository
+2. Copy `.env.example` to `.env` and fill in your values
+3. Install dependencies:
+   ```bash
+   # Backend
+   cd crowdfunding
+   npm install
+   
+   # Frontend
+   cd frontend
+   npm install
+   ```
+
+## Environment Variables Required
+- SEPOLIA_RPC_URL: Your Alchemy/Infura endpoint
+- ETHERSCAN_API_KEY: Your Etherscan API key
+- PRIVATE_KEY: Your wallet private key (never commit this!)
+- REACT_APP_CONTRACT_ADDRESS: Deployed contract address
+
+## Development
+1. Start local hardhat node: `npx hardhat node`
+2. Deploy contracts: `make deploy-sepolia`
+3. Start frontend: `cd frontend && npm start`
+
+## Security Checklist
+- [ ] Remove private keys from source control
+- [ ] Add .env to .gitignore
+- [ ] Remove hardcoded API keys
+- [ ] Remove hardcoded contract addresses
